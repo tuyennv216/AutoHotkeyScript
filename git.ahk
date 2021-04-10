@@ -24,7 +24,7 @@ Return
 
 ;--- Commands checkout
 
-; Kéo code về
+; Checkout code
 ::gc::
     Paste("git checkout ")
 Return
@@ -33,8 +33,6 @@ Return
 ::gcb::
     Paste("git checkout -b ")
 Return
-
-;--- Tạo nhánh mới
 
 ; Lấy theo code đối phương
 ::gct::
@@ -48,20 +46,25 @@ Return
     SendEnter()
 Return
 
-;--- Commands branch
+;--- Commands nhánh
+
+; Liệt kê danh sách nhánh
 ::gb::
     Paste("git branch -a")
     SendEnter()
 Return
 
+; Xóa nhánh
 ::gbd::
     Paste("git branch delete ")
 Return
 
+; Merge nhánh
 ::gm::
     Paste("git merge ")
 Return
 
+; Rebase
 ::grb::
     Paste("git rebase ")
 Return
