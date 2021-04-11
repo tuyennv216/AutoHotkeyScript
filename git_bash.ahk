@@ -1,20 +1,20 @@
-
+﻿
 #SingleInstance, Force
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
 
-;--- Commands trạng thái
+;--- Trạng thái
 
 ; Lấy trạng thái
 ::gs::
     Paste("git status")
-    SendEnter()
+    SendEnter(1)
 Return
 
 ; Lấy log
 ::gl::
     Paste("git log")
-    SendEnter()
+    SendEnter(1)
 Return
 
 ; Clone repository
@@ -22,7 +22,7 @@ Return
     Paste("git clone ")
 Return
 
-;--- Commands checkout
+;--- Checkout
 
 ; Checkout code
 ::gc::
@@ -37,21 +37,43 @@ Return
 ; Lấy theo code đối phương
 ::gct::
     Paste("git checkout --theirs .")
-    SendEnter()
+    SendEnter(1)
 Return
 
 ; Lấy theo code của mình
 ::gco::
     Paste("git checkout --ours .")
-    SendEnter()
+    SendEnter(1)
 Return
 
-;--- Commands nhánh
+; Đẩy code
+::gpu::
+    Paste("git push ")
+Return
+
+; Đẩy code lên origin
+::gpo::
+    Paste("git push origin")
+Return
+
+; Lấy thông tin về
+::gf::
+    Paste("git fetch")
+    SendEnter(1)
+Return
+
+; Lấy thông tin và code về
+::gp::
+    Paste("git pull")
+    SendEnter(1)
+Return
+
+;--- Nhánh
 
 ; Liệt kê danh sách nhánh
 ::gb::
     Paste("git branch -a")
-    SendEnter()
+    SendEnter(1)
 Return
 
 ; Xóa nhánh
@@ -64,12 +86,12 @@ Return
     Paste("git merge ")
 Return
 
-; Rebase
+; Rebase nhánh
 ::grb::
     Paste("git rebase ")
 Return
 
-;--- Commands reset
+;--- Reset
 
 ; Reset mềm
 ::gr::
@@ -81,7 +103,7 @@ Return
     Paste("git reset --hard ")
 Return
 
-;--- Commands add, restore, commit
+;--- Commit
 
 ; Thêm file
 ::ga::
@@ -91,92 +113,69 @@ Return
 ; Commit
 ::gcm::
     Paste("git commit -m """"")
-	SendLeft()
+    SendLeft(1)
 Return
 
-; Phục hồi lại file như trước khi thay đổi
+; Phục hồi file
 ::grt::
     Paste("git restore ")
 Return
 
-; Remove file
+; Xóa file
 ::grmf::
     Paste("git rm -f ")
 Return
 
-; Remove folder
+; Xóa folder
 ::grmd::
     Paste("git rm -r -f ")
 Return
 
-;--- Commands lấy và đẩy code
+;--- Stash
 
-; Đẩy code
-::gp::
-    Paste("git push ")
-Return
-
-; Đẩy code lên remote
-::gpo::
-    Paste("git push origin ")
-Return
-
-; Kéo metadata về
-::gft::
-    Paste("git fetch")
-    SendEnter()
-Return
-
-; Kéo metadata + code về
-::gpl::
-    Paste("git pull")
-    SendEnter()
-Return
-
-;--- Commands stash
-
-; Hiển thị danh sách stash
+; Liệt kê dánh sách stash
 ::gsl::
     Paste("git stash list")
-    SendEnter()
+    SendEnter(1)
 Return
 
-; Lưu các thay đổi hiện tại vào stash
+; Lưu vào stash
 ::gsv::
     Paste("git stash save")
-    SendEnter()
+    SendEnter(1)
 Return
 
-; Paste stash mới nhất và xóa nó khỏi stash list
+; Lấy và xóa khỏi stash list
 ::gsp::
     Paste("git stash pop")
-    SendEnter()
+    SendEnter(1)
 Return
 
 
-;--- Common functions
-
-; Chèn text vào clipboard và paste
+;--- Common function
 Paste(string){
-	clipboard := string
-	clipwait
-	BlockInput, On
+    clipboard := ""
+    clipboard := string
+    clipwait
+    BlockInput, On
 
-	; Git bash sử dụng Insert để paste
-	; Send {Insert}
+    ; Git bash uses Insert
+    Send {Insert}
 
-	; Window sử dụng Ctrl + v để paste
-	Send ^v
+    ; Window uses Ctrl + v
+    ;Send ^v
 
-	BlockInput, off
+    BlockInput, Off
 }
 
-; Gửi phím enter
-SendEnter() {
-	Send {Enter}
+SendEnter(time) {
+    BlockInput, On
+    Send {Enter %time%}
+    BlockInput, Off
 }
 
-; Gửi phím mũi tên sang trái
-SendLeft() {
-	Send {Left}
+SendLeft(time) {
+    BlockInput, On
+    Send {Left %time%}
+    BlockInput, Off
 }
