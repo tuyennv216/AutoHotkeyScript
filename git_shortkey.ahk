@@ -2,6 +2,7 @@
 #SingleInstance, Force
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
+SetKeyDelay 0
 
 ;--- Trạng thái
 
@@ -78,7 +79,12 @@ Return
 
 ; Xóa nhánh
 ::gbd::
-    Paste("git branch delete ")
+    Paste("git branch -d ")
+Return
+
+; Xóa nhánh (Force)
+::gbdf::
+    Paste("git branch -D ")
 Return
 
 ; Merge nhánh
@@ -103,6 +109,22 @@ Return
     Paste("git reset --hard ")
 Return
 
+; Phục hồi file
+::grt::
+    Paste("git restore ")
+Return
+
+; Phục hồi trạng thái
+::grs::
+    Paste("git restore --staged ")
+Return
+
+; Clear file tạm
+::gcn::
+    Paste("git clear -f")
+    SendEnter(1)
+Return
+
 ;--- Commit
 
 ; Thêm file
@@ -116,24 +138,9 @@ Return
     SendLeft(1)
 Return
 
-; Phục hồi file
-::grt::
-    Paste("git restore ")
-Return
-
-; Xóa file
-::grmf::
-    Paste("git rm -f ")
-Return
-
-; Xóa folder
-::grmd::
-    Paste("git rm -r -f ")
-Return
-
 ;--- Stash
 
-; Liệt kê dánh sách stash
+; Liệt kê danh sách stash
 ::gsl::
     Paste("git stash list")
     SendEnter(1)
@@ -145,6 +152,12 @@ Return
     SendEnter(1)
 Return
 
+; Lấy và apply từ stash
+::gsa::
+    Paste("git stash apply")
+    SendEnter(1)
+Return
+
 ; Lấy và xóa khỏi stash list
 ::gsp::
     Paste("git stash pop")
@@ -153,18 +166,16 @@ Return
 
 
 ;--- Common function
+
 Paste(string){
+    clipsaved := ClipboardAll
     clipboard := ""
     clipboard := string
     clipwait
     BlockInput, On
-
-    ; Git bash uses Insert
-    Send {Insert}
-
-    ; Window uses Ctrl + v
-    ;Send ^v
-
+    SendRaw %clipboard%
+    clipboard := clipsaved
+    clipsaved := ""
     BlockInput, Off
 }
 
