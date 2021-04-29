@@ -2,170 +2,191 @@
 #SingleInstance, Force
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
-SetKeyDelay -1
 
 ;--- Trạng thái
 
 ; Lấy trạng thái
 ::gs::
-    SendText("git status")
-    SendKey("Enter", 1)
+    SendCombine("git status", "Enter", 1)
 Return
 
 ; Lấy log
 ::gl::
-    SendText("git log")
-    SendKey("Enter", 1)
+    SendCombine("git log", "Enter", 1)
 Return
 
 ; Clone repository
-::gcl::
-    SendText("git clone ")
+::gce::
+    SendCombine("git clone ")
 Return
 
 ;--- Checkout
 
 ; Checkout code
 ::gc::
-    SendText("git checkout ")
+    SendCombine("git checkout ")
 Return
 
 ; Tạo nhánh mới
 ::gcb::
-    SendText("git checkout -b ")
+    SendCombine("git checkout -b ")
 Return
 
 ; Lấy theo code đối phương
 ::gct::
-    SendText("git checkout --theirs .")
-    SendKey("Enter", 1)
+    SendCombine("git checkout --theirs .", "Enter", 1)
 Return
 
 ; Lấy theo code của mình
 ::gco::
-    SendText("git checkout --ours .")
-    SendKey("Enter", 1)
+    SendCombine("git checkout --ours .", "Enter", 1)
 Return
 
 ; Đẩy code
 ::gpu::
-    SendText("git push ")
+    SendCombine("git push ")
 Return
 
 ; Đẩy code lên origin
 ::gpo::
-    SendText("git push origin")
+    SendCombine("git push origin")
 Return
 
 ; Lấy thông tin về
 ::gf::
-    SendText("git fetch")
-    SendKey("Enter", 1)
+    SendCombine("git fetch", "Enter", 1)
 Return
 
 ; Lấy thông tin và code về
 ::gp::
-    SendText("git pull")
-    SendKey("Enter", 1)
+    SendCombine("git pull", "Enter", 1)
 Return
 
 ;--- Nhánh
 
 ; Liệt kê danh sách nhánh
 ::gb::
-    SendText("git branch -a")
-    SendKey("Enter", 1)
+    SendCombine("git branch -a", "Enter", 1)
 Return
 
 ; Xóa nhánh
 ::gbd::
-    SendText("git branch -d ")
+    SendCombine("git branch -d ")
 Return
 
 ; Xóa nhánh (Force)
 ::gbdf::
-    SendText("git branch -D ")
+    SendCombine("git branch -D ")
 Return
 
 ; Merge nhánh
 ::gm::
-    SendText("git merge ")
+    SendCombine("git merge ")
 Return
 
 ; Rebase nhánh
 ::grb::
-    SendText("git rebase ")
+    SendCombine("git rebase ")
 Return
 
 ;--- Reset
 
 ; Reset mềm
 ::gr::
-    SendText("git reset ")
+    SendCombine("git reset ")
 Return
 
 ; Reset cứng
 ::grh::
-    SendText("git reset --hard ")
+    SendCombine("git reset --hard ")
 Return
 
 ; Phục hồi file
 ::grt::
-    SendText("git restore ")
+    SendCombine("git restore ")
 Return
 
 ; Phục hồi trạng thái
 ::grs::
-    SendText("git restore --staged ")
+    SendCombine("git restore --staged ")
 Return
 
 ; Clear file tạm
-::gcn::
-    SendText("git clear -f")
-    SendKey("Enter", 1)
+::gcl::
+    SendCombine("git clean -f", "Enter", 1)
 Return
 
 ;--- Commit
 
 ; Thêm file
 ::ga::
-    SendText("git add ")
+    SendCombine("git add ")
 Return
 
 ; Commit
 ::gcm::
-    SendText("git commit -m """"")
-    SendKey("Left", 1)
+    SendCombine("git commit -m """"", "Left", 1)
 Return
 
 ;--- Stash
 
 ; Liệt kê danh sách stash
 ::gsl::
-    SendText("git stash list")
-    SendKey("Enter", 1)
+    SendCombine("git stash list", "Enter", 1)
 Return
 
 ; Lưu vào stash
 ::gsv::
-    SendText("git stash save")
-    SendKey("Enter", 1)
+    SendCombine("git stash save", "Enter", 1)
 Return
 
 ; Lấy và apply từ stash
 ::gsa::
-    SendText("git stash apply")
-    SendKey("Enter", 1)
+    SendCombine("git stash apply", "Enter", 1)
 Return
 
 ; Lấy và xóa khỏi stash list
 ::gsp::
-    SendText("git stash pop")
-    SendKey("Enter", 1)
+    SendCombine("git stash pop", "Enter", 1)
 Return
 
 
 ;--- Common function
+
+SendCombine(s1="", s2="", s3=0, s4="", s5=0, s6="", s7=0){
+    BlockInput, On
+    saved := ClipboardAll
+    if s1 != 
+    {
+        Clipboard := s1
+        ClipWait
+        Send +{Insert}
+    }
+    if !(s2 == "")
+        Send {%s2% %s3%}
+    if !(s4 == "")
+        Send {%s4% %s5%}
+    if !(s6 == "")
+        Send {%s6% %s7%}
+    Sleep 80
+    Clipboard := saved
+    ClipWait
+    saved := ""
+    BlockInput, Off
+}
+
+PasteText(string){
+    BlockInput, On
+    saved := ClipboardAll
+    Clipboard := string
+    ClipWait
+    Send +{Insert}
+    Sleep 80
+    Clipboard := saved
+    saved := ""
+    ClipWait
+    BlockInput, Off
+}
 
 SendText(string){
     BlockInput, On
