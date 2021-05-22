@@ -155,6 +155,7 @@ Return
 
 SendCombine2(s1="", s2="", s3=0, s4="", s5=0, s6="", s7=0){
     BlockInput, On
+    Sleep 10
     if !(s1 == "")
         Send {Text}%s1%
     if !(s2 == "")
@@ -193,6 +194,7 @@ PasteText(string){
     saved := ClipboardAll
     Clipboard := string
     ClipWait
+    Sleep 80
     Send +{Insert}
     Sleep 80
     Clipboard := saved
