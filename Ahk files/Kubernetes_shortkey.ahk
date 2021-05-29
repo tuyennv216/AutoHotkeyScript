@@ -27,6 +27,11 @@ Return
     SendCombine2("kubectl explain pods", "Enter", 1)
 Return
 
+; Create new secret
+::kcsc::
+    SendCombine2("kubectl create secret generic  --from-literal=", "Left", 16)
+Return
+
 ;--- Viewing, finding
 
 ; List all services
@@ -72,6 +77,11 @@ Return
 ; Compares state
 ::kdf::
     SendCombine2("kubectl diff -f ")
+Return
+
+; List all secrets
+::kgsc::
+    SendCombine2("kubectl get secrets", "Enter", 1)
 Return
 
 ;--- Updating
