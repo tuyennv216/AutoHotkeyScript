@@ -84,6 +84,11 @@ Return
     SendCombine2("git merge ")
 Return
 
+; Merge nhánh no-ff
+::gmf::
+    SendCombine2("git merge --no-ff ")
+Return
+
 ; Rebase nhánh
 ::grb::
     SendCombine2("git rebase ")
@@ -128,6 +133,11 @@ Return
     SendCombine2("git commit -m """"", "Left", 1)
 Return
 
+; Commit amend
+::gcma::
+    SendCombine2("git commit -amend -m """"", "Left", 1)
+Return
+
 ;--- Stash
 
 ; Liệt kê danh sách stash
@@ -137,17 +147,49 @@ Return
 
 ; Lưu vào stash
 ::gsv::
-    SendCombine2("git stash save", "Enter", 1)
+    SendCombine2("git stash save """"", "Left", 1)
 Return
 
 ; Lấy và apply từ stash
 ::gsa::
-    SendCombine2("git stash apply", "Enter", 1)
+    SendCombine2("git stash apply stash@{0}", "Left", 1)
 Return
 
 ; Lấy và xóa khỏi stash list
 ::gsp::
     SendCombine2("git stash pop", "Enter", 1)
+Return
+
+; Xóa stash
+::gsc::
+    SendCombine2("git stash clear", "Enter", 1)
+Return
+
+;--- Tag
+
+; Hiển thị danh sách tag
+::gtn::
+    SendCombine2("git tag -n")
+Return
+
+; Tạo một lightweight tag
+::gt::
+    SendCombine2("git tag ")
+Return
+
+; Tạo một annotated tag
+::gta::
+    SendCombine2("git tag -a ")
+Return
+
+; Tạo một comment tag
+::gtam::
+    SendCombine2("git tag -am """"", "Left", 1)
+Return
+
+; Xóa tag
+::gtd::
+    SendCombine2("git tag -d ")
 Return
 
 
