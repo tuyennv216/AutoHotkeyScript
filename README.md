@@ -1,9 +1,11 @@
 # AutoHotkeyScript
 
-**Gồm một số scrip sử dụng [auto hotkey](https://www.autohotkey.com/)**
+**Cái này gồm một số scrip sử dụng [auto hotkey](https://www.autohotkey.com/)**
 
-I. Gút gọn những cú pháp hay sử dụng của một số chương trình.  
-*File excel để tạo ra file script và một số file script mẫu ở thư mục Ahk files*
+I. Một số cú pháp hay sử dụng của các chương trình phổ biến.  
+Thay vì phải gõ đầy đủ tất cả câu lệnh, thì mình sẽ rút gọn nó thành một vài ký tự.  
+Vì sẽ rất chán nếu phải gõ "git status" liên tục, nên sẽ rút gọn nó thành "gs".  
+*File excel này có thể tạo ra custom script và mình có build 1 bản script mẫu ở thư mục Ahk files*
 
 1. Git  
 File shortkey_git.xlsm -> Ahk files/Git_shortkey.ahk  
