@@ -135,7 +135,7 @@ Return
 
 ; Commit amend
 ::gcma::
-    SendCombine2("git commit -amend -m """"", "Left", 1)
+    SendCombine2("git commit --amend -m """"", "Left", 1)
 Return
 
 ;--- Stash
