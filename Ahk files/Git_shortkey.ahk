@@ -89,6 +89,11 @@ Return
     SendCombine2("git merge --no-ff ")
 Return
 
+; Hủy bỏ merge
+::gma::
+    SendCombine2("git merge --abort", "Enter", 1)
+Return
+
 ; Rebase nhánh
 ::grb::
     SendCombine2("git rebase ")
@@ -97,7 +102,7 @@ Return
 ;--- Reset
 
 ; Reset mềm
-::gr::
+::grs::
     SendCombine2("git reset ")
 Return
 
@@ -112,13 +117,18 @@ Return
 Return
 
 ; Phục hồi trạng thái
-::grs::
+::grts::
     SendCombine2("git restore --staged ")
 Return
 
 ; Clear file tạm
 ::gcl::
     SendCombine2("git clean -f", "Enter", 1)
+Return
+
+; Clear file và folder tạm
+::gcld::
+    SendCombine2("git clean -fd")
 Return
 
 ;--- Commit
@@ -190,6 +200,45 @@ Return
 ; Xóa tag
 ::gtd::
     SendCombine2("git tag -d ")
+Return
+
+;--- Config
+
+; Config email
+::gcfe::
+    SendCombine2("git config user.email ")
+Return
+
+; Config username
+::gcfn::
+    SendCombine2("git config user.name ")
+Return
+
+;--- Xem log
+
+; Lấy log 1 dòng
+::glo::
+    SendCombine2("git log --oneline", "Enter", 1)
+Return
+
+; Lấy 1 log theo mã hash
+::gso::
+    SendCombine2("git show ")
+Return
+
+; Lấy 1 log theo thứ tự HEAD
+::gsod::
+    SendCombine2("git show HEAD^")
+Return
+
+; Lấy log commit 1
+::gso1::
+    SendCombine2("git show HEAD^1", "Enter", 1)
+Return
+
+; Lấy log commit 2
+::gso2::
+    SendCombine2("git show HEAD^2", "Enter", 1)
 Return
 
 
