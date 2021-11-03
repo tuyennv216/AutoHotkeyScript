@@ -107,7 +107,7 @@ Return
 Return
 
 ; Reset cứng
-::grh::
+::grsh::
     SendCombine2("git reset --hard ")
 Return
 
@@ -205,39 +205,44 @@ Return
 ;--- Config
 
 ; Config email
-::gcfe::
+::gcue::
     SendCombine2("git config user.email ")
 Return
 
 ; Config username
-::gcfn::
+::gcun::
     SendCombine2("git config user.name ")
 Return
 
 ;--- Xem log
 
 ; Lấy log 1 dòng
-::glo::
+::glog::
     SendCombine2("git log --oneline", "Enter", 1)
 Return
 
 ; Lấy 1 log theo mã hash
-::gso::
+::gsh::
     SendCombine2("git show ")
 Return
 
 ; Lấy 1 log theo thứ tự HEAD
-::gsod::
+::gshn::
     SendCombine2("git show HEAD^")
 Return
 
+; Lấy log commit 0
+::gsh0::
+    SendCombine2("git show HEAD^0", "Enter", 1)
+Return
+
 ; Lấy log commit 1
-::gso1::
+::gsh1::
     SendCombine2("git show HEAD^1", "Enter", 1)
 Return
 
 ; Lấy log commit 2
-::gso2::
+::gsh2::
     SendCombine2("git show HEAD^2", "Enter", 1)
 Return
 
@@ -303,6 +308,15 @@ SendText(string){
 SendKey(key, time) {
     BlockInput, On
     Send {%key% %time%}
+    BlockInput, Off
+}
+
+SendTest(string){
+    BlockInput, On
+    Send %string%{Enter}
+    Sleep 500
+    Send {End}
+    Send {Enter}
     BlockInput, Off
 }
 
