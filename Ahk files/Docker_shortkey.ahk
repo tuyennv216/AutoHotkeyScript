@@ -3,85 +3,109 @@
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
 
-;--- Build
+;--- Containers
 
-; Build and tag
-::dbt::
-    SendCombine2("docker build -t ")
+; Danh sách tất cả container
+::dsa::
+    SendCombine2("docker ps -a", "Enter", 1)
 Return
 
-; List all images
-::dls::
-    SendCombine2("docker image ls", "Enter", 1)
+; Danh sách container đang chạy
+::ds::
+    SendCombine2("docker ps", "Enter", 1)
 Return
 
-; Delete an image
-::drm::
-    SendCombine2("docker image rm ")
+; Danh sách custom
+::dp::
+    SendCombine2("docker ps ")
 Return
 
-;--- Share
-
-; Pull an image
-::dpl::
-    SendCombine2("docker pull ")
-Return
-
-; Retag a local image
-::dt::
-    SendCombine2("docker tag ")
-Return
-
-; Push an image
-::dpu::
-    SendCombine2("docker push")
-Return
-
-;--- Run
-
-; Run a container
-::dcr::
-    SendCombine2("docker container run ")
-Return
-
-; Stop a running container
+; Chạy container
 ::dcs::
+    SendCombine2("docker container start ")
+Return
+
+; Dừng container
+::dss::
     SendCombine2("docker container stop ")
 Return
 
-; Kill a running container
+; Tắt container
 ::dck::
     SendCombine2("docker container kill ")
 Return
 
-; List the network
-::dnl::
-    SendCombine2("docker network ls", "Enter", 1)
+; Xóa container
+::dcr::
+    SendCombine2("docker container rm -f ")
 Return
 
-; List the running containers
-::dcls::
-    SendCombine2("docker container ls", "Enter", 1)
+;--- Images
+
+; Danh sách images
+::di::
+    SendCombine2("docker images", "Enter", 1)
 Return
 
-; Delete all running container
-::dcrmfa::
-    SendCombine2("docker container rm -f $(docker ps -aq)", "Enter", 1)
+; Commit
+::dcm::
+    SendCombine2("docker commit ")
 Return
 
-; Print logs
-::dclog::
-    SendCombine2("docker container logs --tail 100 ")
+; Build image
+::dib::
+    SendCombine2("docker image build ")
 Return
 
-; List the running containers
-::dps::
-    SendCombine2("docker ps", "Enter", 1)
+; Chạy 1 image
+::dr::
+    SendCombine2("docker run -it ")
 Return
 
-; Execute the command
-::de::
+; Chạy 1 background image
+::drr::
+    SendCombine2("docker run -t -d ")
+Return
+
+; Xóa image
+::dir::
+    SendCombine2("docker image -rm -f ")
+Return
+
+;--- Enviroment
+
+; Xem config
+::dci::
+    SendCombine2("docker inspect -f ""{{  .Config.Env }}"" ")
+Return
+
+; Thay đổi config
+::dcc::
+    SendCombine2("docker commit --change ""ENV """, "Left", 1)
+Return
+
+; Thay đổi cmd
+::dcmd::
+    SendCombine2("docker commit --change ""CMD """, "Left", 1)
+Return
+
+;--- Modify
+
+; Chạy một cmd
+::dx::
     SendCombine2("docker exec -it ")
+Return
+
+; Attach container
+::dt::
+    SendCombine2("docker attach ")
+Return
+
+;--- Docker
+
+; Restart docker
+::drestart::
+    SendCombine2("sudo systemctl restart docker")
 Return
 
 
