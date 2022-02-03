@@ -3,45 +3,23 @@
 SendMode Input
 SetWorkingDir, %A_ScriptDir%
 
-;--- Config
+;--- Name
 
-; Show config
-::kc::
-    SendCombine2("microk8s kubectl config view", "Enter", 1)
+; Short name
+::mkctl::
+    SendCombine2("microk8s kubectl ")
 Return
 
-;--- Apply
+;--- View
 
-; Create new object
+; List all
 ::ka::
-    SendCombine2("microk8s kubectl apply -f ")
+    SendCombine2("microk8s kubectl get all", "Enter", 1)
 Return
-
-; Create new deployment
-::kd::
-    SendCombine2("microk8s kubectl create deployment ")
-Return
-
-; Get the documentation
-::ked::
-    SendCombine2("microk8s kubectl explain pods", "Enter", 1)
-Return
-
-; Create new secret
-::ksc::
-    SendCombine2("microk8s kubectl create secret generic  --from-literal=", "Left", 16)
-Return
-
-;--- Viewing, finding
 
 ; List all services
 ::ks::
     SendCombine2("microk8s kubectl get services", "Enter", 1)
-Return
-
-; List all services sort by name
-::ksn::
-    SendCombine2("microk8s kubectl get services --sort-by=.metadata.name", "Enter", 1)
 Return
 
 ; List all pods
@@ -49,151 +27,139 @@ Return
     SendCombine2("microk8s kubectl get pods", "Enter", 1)
 Return
 
-; List all pods in all namespaces
-::kpa::
-    SendCombine2("microk8s kubectl get pods --all-namespaces", "Enter", 1)
-Return
-
 ; List all deployments
 ::kd::
     SendCombine2("microk8s kubectl get deployments", "Enter", 1)
 Return
 
-; Describe nodes
+; List all images
+::ki::
+    SendCombine2("microk8s ctr images ls", "Enter", 1)
+Return
+
+; List all images contains name
 ::kin::
-    SendCombine2("microk8s kubectl describe nodes ")
+    SendCombine2("microk8s ctr images ls ""name~=""", "Left", 1)
 Return
 
-; Describe pods
-::kip::
-    SendCombine2("microk8s kubectl describe pods ")
-Return
-
-; List events sorted by timestamp
-::ket::
-    SendCombine2("microk8s kubectl get events --sort-by=.metadata.creationTimestamp", "Enter", 1)
-Return
-
-; Compares state
-::kdf::
-    SendCombine2("microk8s kubectl diff -f ")
+; List all namespaces
+::kn::
+    SendCombine2("microk8s kubectl get ns", "Enter", 1)
 Return
 
 ; List all secrets
-::ksa::
+::ksc::
     SendCombine2("microk8s kubectl get secrets", "Enter", 1)
 Return
 
-;--- Updating
+;--- Describe
 
-; Updating the image
-::kic::
-    SendCombine2("microk8s kubectl set image deployment/")
+; Describe pod
+::kdp::
+    SendCombine2("microk8s kubectl describe pod ")
 Return
 
-; Check the history of deployment
-::krc::
-    SendCombine2("microk8s kubectl rollout history deployment/")
+; Describe node
+::kdn::
+    SendCombine2("microk8s kubectl describe node ")
 Return
 
-; Rollback to a specific revision
-::krv::
-    SendCombine2("microk8s kubectl rollout undo deployment/")
+; Describe service
+::kds::
+    SendCombine2("microk8s kubectl describe service ")
 Return
 
-; Watch rolling status
-::krr::
-    SendCombine2("microk8s kubectl rollout status -w deployment/")
+;--- Create
+
+; Apply yaml file
+::kaf::
+    SendCombine2("microk8s kubectl apply -f ")
 Return
 
-; Rolling restart
-::ks::
-    SendCombine2("microk8s kubectl rollout restart deployment/")
+; Create a deployment
+::kcd::
+    SendCombine2("microk8s kubectl create deployment ")
 Return
 
-; Force replace
-::krf::
-    SendCombine2("microk8s kubectl replace --force -f ")
+; Create a secret
+::kcs::
+    SendCombine2("microk8s kubectl create secret generic  --from-literal=", "Left", 16)
 Return
 
-; Create a nginx service
-::knginx::
-    SendCombine2("microk8s kubectl expose rc nginx --port= --target-port=", "Left", 15)
+;--- Delete
+
+; Delete something
+::kdel::
+    SendCombine2("microk8s kubectl delete ")
 Return
 
-; Add a label
-::klabel::
-    SendCombine2("microk8s kubectl label pods  new-label=", "Left", 11)
+; Delete a pod
+::kdelp::
+    SendCombine2("microk8s kubectl delete pod ")
 Return
 
-; Auto slace a deployment
-::kauto::
-    SendCombine2("microk8s kubectl autoscale deployment ")
+; Delete a service
+::kdels::
+    SendCombine2("microk8s kubectl delete svc ")
 Return
 
-;--- Patching
+; Delete a deployment
+::kdeld::
+    SendCombine2("microk8s kubectl delete deployment ")
+Return
 
-; Partially update a node
+; Delete a app
+::kdela::
+    SendCombine2("microk8s kubectl delete all -l app=")
+Return
+
+; Delete a secret
+::kdelsc::
+    SendCombine2("microk8s delete secret ")
+Return
+
+; Rollout all deployment
+::kro::
+    SendCombine2("microk8s kubectl rollout restart deployment", "Enter", 1)
+Return
+
+; Rollout all deployment of an app
+::krod::
+    SendCombine2("kubectl rollout restart deployment ")
+Return
+
+;--- Patch
+
+; Patch a node
 ::kpn::
     SendCombine2("microk8s kubectl patch node ")
 Return
 
-; Update a image
-::kpd::
+; Patch a pod
+::kpp::
     SendCombine2("microk8s kubectl patch pod ")
 Return
 
-;--- Editing
+;--- Debug
 
-; Edit the service
-::ke::
-    SendCombine2("microk8s kubectl edit svc/")
-Return
-
-;--- Scaling
-
-; Scale a replicaset
-::ksr::
-    SendCombine2("microk8s kubectl scale --replicas=")
-Return
-
-;--- Deleting
-
-; Delete pod
-::kdp::
-    SendCombine2("microk8s kubectl delete -f ")
-Return
-
-; Delete pod, service
-::kdps::
-    SendCombine2("microk8s kubectl delete pod,service ")
-Return
-
-;--- Interacting
-
-; Dump pod logs
-::klog::
-    SendCombine2("microk8s kubectl logs ")
-Return
-
-; Run command
-::kr::
-    SendCombine2("microk8s kubectl run -I ")
-Return
-
-; Attach to running container
+; Attach to a container
 ::kt::
     SendCombine2("microk8s kubectl attach  -i", "Left", 3)
 Return
 
-; Port forward
-::kpp::
-    SendCombine2("microk8s kubectl port-forward ")
+; Run a command
+::kr::
+    SendCombine2("microk8s kubectl run -I ")
 Return
 
-; Exec command
+; Exec a command
 ::kx::
     SendCombine2("microk8s kubectl exec ")
+Return
+
+; Get log
+::klog::
+    SendCombine2("microk8s kubectl logs ")
 Return
 
 
@@ -261,3 +227,14 @@ SendKey(key, time) {
     BlockInput, Off
 }
 
+SendTest(string){
+    BlockInput, On
+    SendLevel, 0
+    SendInput %string%{Tab}
+    SendLevel, 1
+    Send %string%{Enter}
+    Sleep 500
+    Send {End}
+    Send {Enter}
+    BlockInput, Off
+}

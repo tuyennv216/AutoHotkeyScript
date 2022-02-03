@@ -48,7 +48,7 @@ Return
 Return
 
 ; Commit
-::dcm::
+::dc::
     SendCombine2("docker commit ")
 Return
 
@@ -69,7 +69,7 @@ Return
 
 ; Xóa image
 ::dir::
-    SendCombine2("docker image -rm -f ")
+    SendCombine2("docker image rm -f ")
 Return
 
 ;--- Enviroment
@@ -85,14 +85,14 @@ Return
 Return
 
 ; Thay đổi cmd
-::dcmd::
+::dcd::
     SendCombine2("docker commit --change ""CMD """, "Left", 1)
 Return
 
 ;--- Modify
 
 ; Chạy một cmd
-::dx::
+::de::
     SendCombine2("docker exec -it ")
 Return
 
@@ -106,6 +106,11 @@ Return
 ; Restart docker
 ::drestart::
     SendCombine2("sudo systemctl restart docker")
+Return
+
+; Run docker command
+::drun::
+    SendCombine2("sudo chmod 666 /var/run/docker.sock")
 Return
 
 
